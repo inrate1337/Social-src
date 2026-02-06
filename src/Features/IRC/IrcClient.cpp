@@ -20,7 +20,6 @@
 #include <sstream>
 #include "stb_image.h"
 
-// so that irc strings dont appear in release builds
 #ifdef __DEBUG__
 #define logm(...) spdlog::info("[irc] " __VA_ARGS__)
 #else
@@ -102,7 +101,6 @@ void IrcClient::sendOpAuto(const ChatOp& op)
 ChatOp IrcClient::parseOpAuto(std::string data)
 {
     if (mEncrypted.load()) {
-        // If the data contains "e" key, write the value of e to data
         auto encryptedOp = EncryptedOp(data);
         encryptedOp.decrypt(mServerKey);
         return ChatOp::deserializeStr(encryptedOp.Encrypted);
@@ -163,7 +161,6 @@ void IrcClient::sendSkin()
 
     auto skin = player->getSkin();
     int skinSize = skin->skinHeight;
-    // Calc amount of bytes
     int skinDataSize = skin->skinHeight * skin->skinWidth * 4; // 4 bytes per pixel (RGBA)
     std::vector<uint8_t> skinData;
     skinData.reserve(skinSize);
@@ -397,7 +394,7 @@ bool IrcClient::connectToServer()
                         genClientKey();
                         auto op = ChatOp(OpCode::KeyIn, mClientKey, true);
                         sendOpAuto(op);
-                        mEncrypted.store(true); // from now on, we will encrypt messages
+                        mEncrypted.store(true); 
                         return;
                     }
 
