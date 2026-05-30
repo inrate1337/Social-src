@@ -1,2 +1,2 @@
-idk. have fun
+idk. have fun\
 p.s dmitryi365: радуйтесь, хуле
